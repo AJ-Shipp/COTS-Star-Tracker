@@ -25,8 +25,7 @@ to start with this document and then proceed through the others in the /docs dir
 
 
 ## 1.2 Background
-(As of 2020) Star trackers are common sensors in spaceflight that use energy gathered by detector arrays combined with star catalogs to determine
-the inertial attitude of the boresight of the detector array.  They typically have an accuracy better than 50 arc seconds and come
+(As of 2020) Star trackers are common sensors in spaceflight that use energy gathered by detector arrays combined with star catalogs to determine the inertial attitude of the boresight of the detector array.  They typically have an accuracy better than 50 arc seconds and come
 in a variety of weights and sizes.  Many have optical heads that fit within a 150 mm by 150 mm by 150 mm volume (not including a baffle)
 and have a mass of a few kilograms.  Star tracker typically cost hundreds of thousands of dollars and take many months to build.  
 These instruments, like many other avionics, continue to get smaller and cheaper.  CubeSat star trackers typically fit with a
@@ -44,8 +43,7 @@ this development effort.
 The COTS Star Tracker is a set of algorithms that's intended to enable a user to get high accuracy attitude information from
 a picture of a star field (much like the aforementioned star trackers) taken with a COTS camera.  These algorithms are meant
 to be generic and efficient so that they return reasonably accurate results on commonly available, low size, weight, and power (SWAP)
-COTS computers (e.g. Raspberry Pi 3B+).  The algorithms are written in Python 3 as it's a highly capable, open source, high-level programming language
-that has a large user base, is cross-platform, and features relatively descriptive Traceback errors to accelerate development.
+COTS computers (e.g. Raspberry Pi 3B+).  The algorithms are written in Python 3 as it's a highly capable, open source, high-level programming language that has a large user base, is cross-platform, and features relatively descriptive Traceback errors to accelerate development.
 
 The algorithms are open source, the COTS cameras are relatively low cost and lead time, and the COTS computers are relatively
 low cost and lead time as well.  This should result in a capability that's easy to acquire and low cost.  The hope is that this
@@ -56,16 +54,12 @@ software repositories that function as attitude estimation utilities operating f
 system differs from these as it's demonstrated with a variety of hardware (both imagers and computers) and is built to be rapidly
 deployed on a variety of systems by those that aren't experts in imaging systems or attitude determination.
 
-The accuracy and efficacy of the COTS Star Tracker system depends on many things, including the selected camera, lens, quality of the calibration,
-the parameters used to configure the algorithm, mounting errors, etc.  Even when properly calibrated and configured, the accuracy of the COTS Star
-Tracker system is still far below that of commercially available systems (like those mentioned above).  The COTS Star Tracker is not
-meant to replace commercially available systems-- it's meant to enhance the capability of spacecraft that aren't able to accommodate them.
+The accuracy and efficacy of the COTS Star Tracker system depends on many things, including the selected camera, lens, quality of the calibration, the parameters used to configure the algorithm, mounting errors, etc.  Even when properly calibrated and configured, the accuracy of the COTS Star Tracker system is still far below that of commercially available systems (like those mentioned above).  The COTS Star Tracker is not meant to replace commercially available systems-- it's meant to enhance the capability of spacecraft that aren't able to accommodate them.
 
 
 ## 1.4 High-Level Description of Use
 You are again STRONGLY encouraged to read all of the documents and scripts in the /examples directory before using this software.  In order
-to provide a big-picture view to help the others documents make more sense in context, a high-level description of the steps required to use this
-software and implement your own star tracker system follows:
+to provide a big-picture view to help the others documents make more sense in context, a high-level description of the steps required to use this software and implement your own star tracker system follows:
 
 1. Select a camera and lens
     * Not all cameras are created equal.  We do not recommend those that only support basic UVC drivers.
@@ -87,10 +81,7 @@ software and implement your own star tracker system follows:
 
 
 ## 1.5 System Testing
-A preliminary version of the COTS Star Tracker algorithm was tested on a variety of image sets, including some taken from a synthetic generation system,
-some taken on-orbit, and some taken terrestrially.  These image sets were processed on a Raspberry Pi 3B+, an Odroid XU4Q, and a Dell Precision 7720.
-The resulting accuracy across all platforms was fairly consistent with a mean error of about 200 arc seconds.  The solve time varied significantly, with
-most solve times on the Dell being around 0.25 s, on the Pi being 2.0 s, and the Odroid being 1.5 s.
+A preliminary version of the COTS Star Tracker algorithm was tested on a variety of image sets, including some taken from a synthetic generation system, some taken on-orbit, and some taken terrestrially.  These image sets were processed on a Raspberry Pi 3B+, an Odroid XU4Q, and a Dell Precision 7720. The resulting accuracy across all platforms was fairly consistent with a mean error of about 200 arc seconds.  The solve time varied significantly, with most solve times on the Dell being around 0.25 s, on the Pi being 2.0 s, and the Odroid being 1.5 s.
 
 System updates and performance analysis is still in work.
 
