@@ -5,13 +5,16 @@ import numpy as np
 import PIL 
 from PIL import Image
 
-file = r"C:\Users\antho\InfraTracker\2-1-25 Trip\image_series_set4-_3.bmp"
+# file = r"C:\Users\antho\InfraTracker\2-1-25 Trip\image_series_set4-_3.bmp"
+# file = r"C:\Users\antho\InfraTracker\2-1-25 Trip\image_series_set5-_15.tiff"
+file = r"C:\Users\antho\InfraTracker\2-1-25 Trip\testimages_set7_8.bmp"
 fSize = [int(2592),int(1944)]
 imgSubbed = np.zeros((fSize[1],fSize[0]))
+imChosen = 2
+
+
 img = Image.open(file)
-
 imgReshaped = np.reshape(list(img.getdata()),(fSize[1],fSize[0]))
-
 avg = np.average(imgReshaped)
 
 for i in range(fSize[0]):
@@ -25,7 +28,9 @@ for i in range(fSize[0]):
 
 print(np.sum(imgSubbed))
 
-# plt1 = plt.imshow(img,'jet')
-plt2 = plt.imshow(imgSubbed,'jet') 
+if imChosen == 1:
+    plt1 = plt.imshow(img,'jet')
+elif imChosen == 2:
+    plt2 = plt.imshow(imgSubbed,'jet') 
 
 plt.show()
