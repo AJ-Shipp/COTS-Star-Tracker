@@ -27,10 +27,10 @@ from tetra3_Cal import Tetra3
 #USER INPUT
 ################################
 db_name = 'test_db'
-path_to_images = ''
-image_file_extension = '.jpg'
+path_to_images = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data'
+image_file_extension = '.tiff'
 darkframe_filename = ''
-estimated_full_angle_fov = 20
+estimated_full_angle_fov = 32
 verbose = True
 
 
