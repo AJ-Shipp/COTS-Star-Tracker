@@ -1,0 +1,164 @@
+import os 
+import numpy as np
+import scipy as sci
+import PIL 
+from PIL import Image
+import matplotlib.pyplot as plt
+
+direc = r'G:\My Drive\Terminus\2-22-25_Trip'
+dark = r'C:\Users\antho\InfraTracker\2-13-25_Tests\test_images-_11.tiff'
+imTag = '310ms_24d1g'
+imType = '.tiff'
+
+def quickProcess(direcPath,darkPath,inName,imgType):
+    fSize = [int(2592),int(1944)]
+    imgSubbed = np.zeros((fSize[1],fSize[0]))
+    direct = direcPath + "\\"
+    darkPath = dark
+    darkImg = Image.open(darkPath)
+    darkImgReshaped = np.reshape(list(darkImg.getdata()),(fSize[1],fSize[0]))
+    avg = np.average(darkImgReshaped)
+    avgNew = 17129/((1300-1100)*(2000-1800))
+   
+    for filename in os.listdir(direct):
+        filePath = direct+filename
+        if not filename.endswith(imgType):
+            continue
+        if inName in filename:
+            img = Image.open(filePath)
+            imgReshaped = np.reshape(list(img.getdata()),(fSize[1],fSize[0]))
+            for i in range(fSize[0]):
+                for j in range(fSize[1]):
+                    imgSubbed[j][i] = imgReshaped[j][i] - (avgNew*0.1)
+                    # if i < fSize[0] or j < fSize[1]:
+                    #     if imgSubbed[j][i] < 0.0001*imgSubbed[j-1][i-1]:
+                    #         imgSubbed[j-1][i-1] = 0 
+            img.putdata(np.resize(imgSubbed,(imgSubbed.shape[0]*imgSubbed.shape[1])))
+            pathSave = direct+"Quick_Edits-2\\"+filename
+            newName = pathSave.split('.')[0]+"_edited.tiff"
+            img.save(newName)
+
+quickProcess(direc,dark,inName=imTag,imgType=imType)
+
+"""
+imgEdit = r"G:\My Drive\Terminus\2-22-25_Trip\310ms_24d1g_11_edited.tiff"
+imgEditIm = Image.open(imgEdit)
+imgEditBase = imgEdit[:48]+'.tiff'
+imgEditBaseIm = Image.open(imgEditBase)
+findBase = np.reshape(list(imgEditBaseIm.getdata()),(fSize[1],fSize[0]))
+np.sum(findBase[1100:1300,1800:1900])
+
+avgNew = 17129/((1300-1100)*(2000-1800))
+imgSubbed2 = np.zeros((fSize[1],fSize[0]))
+imgTest = Image.open(imgEditBase)
+imgReshaped2 = np.reshape(list(imgTest.getdata()),(fSize[1],fSize[0]))
+for i in range(fSize[0]):
+    for j in range(fSize[1]):
+        imgSubbed2[j][i] = imgReshaped2[j][i] - avgNew
+        if i < fSize[0] or j < fSize[1]:
+            if imgSubbed2[j][i] < 0.05*imgSubbed2[j-1][i-1]:
+                imgSubbed2[j-1][i-1] = 0 
+imgTest.putdata(np.resize(imgSubbed2,(imgSubbed2.shape[0]*imgSubbed2.shape[1])))
+
+print(avgNew)
+plt1 = plt.subplot(121)
+plt1 = plt.imshow(imgReshaped)
+plt1 = plt.colorbar()
+plt1 = plt.title("Reshaped Image \n| Sum:{:.2f} | Max:{:.2f} | Average:{:.2f}".format(np.sum(imgReshaped),np.max(imgReshaped),np.sum(imgReshaped)/(2592*1944)))
+plt1 = plt.subplot(122)
+plt1 = plt.imshow(img)
+plt1 = plt.colorbar()
+plt1 = plt.title("Edited Image \n| Sum:{:.2f} | Max:{:.2f} | Average:{:.2f}".format(np.sum(img),np.max(img),np.sum(img)/(2592*1944)))
+plt.show()
+
+
+
+Fun 3D Graph:
+
+import matplotlib.pyplot as plt
+
+imgFile = r"G:\My Drive\Terminus\2-22-25_Trip\Quick_Edits-2\310ms_24d1g_1_edited.tiff"
+img = Image.open(imgFile)
+imgReshaped = np.reshape(list(img.getdata()),(int(1944),int(2592)))
+
+def f(x,y):
+    return imgReshaped[235+x,975+y]
+
+# set up the figure and Axes
+fig = plt.figure()
+ax1 = fig.add_subplot(111, projection='3d')
+
+# fake data
+_x = np.arange(200)
+_y = np.arange(200)
+_xx, _yy = np.meshgrid(_x, _y)
+x, y = _xx.ravel(), _yy.ravel()
+
+top = f(x,y)
+bottom = np.zeros_like(top)
+width = depth = 1
+
+ax1.bar3d(x, y, bottom, width, depth, top, shade=True)
+ax1.set_title('Shaded')
+
+plt.show()
+
+
+
+
+
+Day 2 of 3D Comparisons:
+
+import matplotlib.pyplot as plt
+
+imgFile = r"G:\My Drive\Terminus\2-22-25_Trip\Quick_Edits\310ms_24d1g_1_edited.tiff"
+imgBaseFile = r"G:\My Drive\Terminus\2-22-25_Trip\310ms_24d1g_1.tiff"
+img = Image.open(imgFile)
+imgBase = Image.open(imgBaseFile)
+imgReshaped = np.reshape(list(img.getdata()),(int(1944),int(2592)))
+imgBaseReshaped = np.reshape(list(imgBase.getdata()),(int(1944),int(2592)))
+
+#brightSpot = [335,1075]
+#brightSpot = [750,389]
+brightSpot = [750,589]
+starRadius = 50
+
+def f(img,x,y):
+    return img[(brightSpot[0]-starRadius)+x,(brightSpot[1]-starRadius)+y]
+
+# set up the figure and Axes
+fig = plt.figure(figsize=(8,4))
+ax1 = fig.add_subplot(122, projection='3d')
+
+# data
+_x = np.arange(starRadius*2)
+_y = np.arange(starRadius*2)
+_xx, _yy = np.meshgrid(_x, _y)
+x, y = _xx.ravel(), _yy.ravel()
+
+top = f(imgReshaped,x,y)
+bottom = np.zeros_like(top)
+width = depth = 1
+
+ax1.bar3d(x, y, bottom, width, depth, top, shade=True)
+ax1.set_title('Edited Image|| Average Value: {:.2f}'.format((np.sum(top)/((starRadius*2)**2))))
+
+# second image
+ax2 = fig.add_subplot(121, projection='3d')
+
+top2 = f(imgBaseReshaped,x,y)
+bottom = np.zeros_like(top2)
+
+ax2.bar3d(x, y, bottom, width, depth, top2, shade=True)
+ax2.set_title('Base Image || Average Value: {:.2f}'.format((np.sum(top2)/((starRadius*2)**2))))
+
+# change z-axis limits for base image to <0
+ax1.set_zlim(0,np.max(top2))
+
+# change z-axis limits for edited image to the same as base image
+ax1.set_zlim(0,np.max(top2))
+
+plt.show()
+
+
+"""
