@@ -40,9 +40,9 @@ VERBOSE = True # set True for prints on results
 graphics = True # set True for graphics throughout the solve process
 
 
-data_path = '' # full path to your data
-image_path = '' # full path to your images
-cam_config_file_path = '' # full path (including filename) of your cam config file
+data_path = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data' # full path to your data
+image_path = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data' # full path to your images
+cam_config_file_path = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data\cam_config\xic_ximea_cam_example.json' # full path (including filename) of your cam config file
 darkframe_file_path = '' # full path (including filename) of your darkframe file
 image_extension = ".jpg" # the image extension to search for in the data_path directory
 cat_prefix ='' # if the catalog has a prefix, define it here
