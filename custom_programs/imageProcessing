@@ -1,6 +1,7 @@
 import os 
 import numpy as np
 import scipy as sci
+from astropy.io import fits
 import PIL 
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -160,5 +161,66 @@ ax1.set_zlim(0,np.max(top2))
 
 plt.show()
 
+
+
+Averaging Dark Frames:
+
+avgF1 = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\4-12-25_Imaging-Trip-3\TripBest_NormFilter\dark-310ms_24d1g_50ict_0bl_0d80gam_avg1.tiff"
+avgF2 = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\4-12-25_Imaging-Trip-3\TripBest_NormFilter\dark-310ms_24d1g_50ict_0bl_0d80gam_avg2.tiff"
+avgF3 = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\4-12-25_Imaging-Trip-3\TripBest_NormFilter\dark-310ms_24d1g_50ict_0bl_0d80gam_avg3.tiff"
+repo = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\4-12-25_Imaging-Trip-3\TripBest_NormFilter"
+darkCode1 = "dark-"
+darkCode2 = "set1_"
+darkCode3 = "set2_"
+darkCode4 = "set3_"
+darks1 = []
+darks2 = []
+darks3 = []
+
+for filename in os.listdir(repo):
+    filepath = repo+'\\'+filename
+    if darkCode1 not in filepath:
+        continue 
+    if darkCode2 in filepath:
+        darks1.append(filepath)
+    if darkCode3 in filepath:
+        darks2.append(filepath)
+    if darkCode4 in filepath:
+        darks3.append(filepath)
+
+sum1 = np.zeros((1944,2592))
+sum2 = np.zeros((1944,2592))
+sum3 = np.zeros((1944,2592))
+
+for file in darks1:
+    sum1 = sum1 + Image.open(file)
+avg1 = sum1 
+for i in range(0,sum1.shape[0]):
+    for j in range(0,sum1.shape[1]):
+        avg1[i][j] = avg1[i][j] / len(darks1)
+
+for file in darks2:
+    sum2 = sum2 + Image.open(file)
+avg2 = sum2 
+for i in range(0,sum2.shape[0]):
+    for j in range(0,sum2.shape[1]):
+        avg2[i][j] = avg2[i][j] / len(darks2)
+
+for file in darks3:
+    sum3 = sum3 + Image.open(file)
+avg3 = sum3 
+for i in range(0,sum3.shape[0]):
+    for j in range(0,sum3.shape[1]):
+        avg3[i][j] = avg3[i][j] / len(darks3)
+
+im1 = Image.new(mode='I;16', size=(2592,1944))
+im2 = Image.new(mode='I;16', size=(2592,1944))
+im3 = Image.new(mode='I;16', size=(2592,1944))
+
+im1.putdata(avg1.flatten())
+im2.putdata(avg2.flatten())
+im3.putdata(avg3.flatten())
+
+print("Done.")
 
 """
