@@ -27,9 +27,9 @@ from tetra3_Cal import Tetra3
 #USER INPUT
 ################################
 db_name = 'test_db'
-path_to_images = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data'
+path_to_images = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\4-12-25_Imaging-Trip-3\TripBest_NormFilter"
 image_file_extension = '.tiff'
-darkframe_filename = ''
+darkframe_filename = "dark-310ms_24d1g_50ict_0bl_0d80gam_avg3"
 estimated_full_angle_fov = 32
 verbose = True
 
