@@ -5,6 +5,7 @@ from astropy.io import fits
 import PIL 
 from PIL import Image
 import matplotlib.pyplot as plt
+import csv
 
 direc = r'G:\My Drive\Terminus\2-22-25_Trip'
 dark = r'C:\Users\antho\InfraTracker\2-13-25_Tests\test_images-_11.tiff'
@@ -222,5 +223,42 @@ im2.putdata(avg2.flatten())
 im3.putdata(avg3.flatten())
 
 print("Done.")
+
+##################################
+Trongle Flight One Data Analysis:
+
+import pandas as pd
+
+dataFile = r'G:\\Shared drives\\SHC Terminus Suborbital Research Group\\24-25 (AMALTHEA, RockSat-X 2)\\Eng - Science\\Trongle\\Data\\LOG00036.TXT'
+
+time = pd.read_csv(dataFile, usecols=["Time"])
+ADC0V = pd.read_csv(dataFile, usecols=["ADC0"])
+ADC1V = pd.read_csv(dataFile, usecols=["ADC1"])
+ADC2V = pd.read_csv(dataFile, usecols=["ADC2"])
+
+ADC0V.values[16] = (ADC0V.values[16-1][0] + ADC0V.values[16+1][0])/2
+ADC1V.values[16] = (ADC1V.values[16-1][0] + ADC1V.values[16+1][0])/2
+ADC2V.values[16] = (ADC2V.values[16-1][0] + ADC2V.values[16+1][0])/2
+
+ADC0V_test = ADC0V[:]/np.max(4095)*np.min(3.3)
+ADC1V_test = ADC1V[:]/np.max(4095)*np.min(3.3)
+ADC2V_test = ADC2V[:]/np.max(4095)*np.min(3.3)
+
+plot2, ax2 = plt.subplots()
+ax2.plot(ADC0V_test, label="ADC0 Voltage")
+ax2.plot(ADC1V_test, label="ADC1 Voltage")
+ax2.plot(ADC2V_test, label="ADC2 Voltage")
+plt.legend()
+
+ax3.clear
+plot3, ax3 = plt.subplots(subplot_kw={"projection": "3d"})
+ax3.plot(ADC0V_test[1:],ADC1V_test[1:],ADC2V_test[1:])
+
+ax3.set_xlabel("ADC0 Voltage")
+ax3.set_ylabel("ADC1 Voltage")
+ax3.set_zlabel("ADC2 Voltage")
+plt.show()
+
+
 
 """
