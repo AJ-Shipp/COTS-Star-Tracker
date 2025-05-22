@@ -27,25 +27,25 @@ from star_tracker.array_transformations import *
 ################################
 #USER INPUT
 ################################
-nmatch = 6 # minimum number of stars to match
+nmatch = 5 # minimum number of stars to match
 starMatchPixelTol = 2 # pixel match tolerance
-min_star_area = 5 # minimum pixel area for a star
+min_star_area = 3 # minimum pixel area for a star
 max_star_area = 200 # maximum pixel area for a star
-max_num_stars_to_process = 20 # maximum number of centroids to attempt to match per image
+max_num_stars_to_process = 25 # maximum number of centroids to attempt to match per image
 
 low_thresh_pxl_intensity = None
 hi_thresh_pxl_intensity = None
 
 VERBOSE = True # set True for prints on results
-graphics = True # set True for graphics throughout the solve process
+graphics = False # set True for graphics throughout the solve process
 
 
-data_path = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data' # full path to your data
-image_path = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data' # full path to your images
-cam_config_file_path = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data\cam_config\xic_ximea_cam_example.json' # full path (including filename) of your cam config file
-darkframe_file_path = '' # full path (including filename) of your darkframe file
-image_extension = ".jpg" # the image extension to search for in the data_path directory
-cat_prefix ='' # if the catalog has a prefix, define it here
+data_path = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data\dfavg1-t3-1sec\Original' # full path to your data
+image_path = r"C:\Users\antho\InfraTracker\4-12-25_Imaging-Trip-3\TripBest_NormFilter" # full path to your images
+cam_config_file_path = r"C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data\cam_config\set1avg1.json" # full path (including filename) of your cam config file
+darkframe_file_path = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\4-12-25_Imaging-Trip-3\TripBest_NormFilter\dark-310ms_24d1g_50ict_0bl_0d80gam_avg3.tiff" # full path (including filename) of your darkframe file
+image_extension = ".tiff" # the image extension to search for in the data_path directory
+cat_prefix = '' # if the catalog has a prefix, define it here
 
 ################################
 #SUPPORT FUNCTIONS
@@ -89,12 +89,13 @@ qv2 = []
 
 # create list of all images in target dir
 total_start = time.time()
-dir_contents = os.listdir(data_path)
+# dir_contents = os.listdir(data_path)
+dir_contents = os.listdir(image_path)
 image_names = []
 
 for item in dir_contents:
     if image_extension in item:
-        image_names+=[os.path.join(os.path.abspath(data_path),item)]
+        image_names+=[os.path.join(os.path.abspath(image_path),item)]
 
 for image_filename in image_names:
 
@@ -104,6 +105,13 @@ for image_filename in image_names:
 
     #run star tracker
     solve_start_time = time.time()
+
+    imgCheck = cv2.imread(image_filename, cv2.IMREAD_GRAYSCALE)
+    if imgCheck is None:
+        continue
+
+    if 'dark' in image_filename:
+        continue
 
     q_est, idmatch, nmatches, x_obs, rtrnd_img = main.star_tracker(
             image_filename, cam_file, m=m, q=q, x_cat=x_cat, k=k, indexed_star_pairs=indexed_star_pairs, darkframe_file=darkframe_file_path, 
