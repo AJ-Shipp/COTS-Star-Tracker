@@ -27,11 +27,11 @@ from tetra3_Cal import Tetra3
 #USER INPUT
 ################################
 db_name = 'test_db'
-path_to_images = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\4-12-25_Imaging-Trip-3\TripBest_NormFilter"
+path_to_images = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\4-12-25_Imaging-Trip-3\Catalog Splitting\Set 1"
 image_file_extension = '.tiff'
-darkframe_filename = "dark-310ms_24d1g_50ict_0bl_0d80gam_avg3"
-estimated_full_angle_fov = 32
-verbose = True
+darkframe_filename = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\4-12-25_Imaging-Trip-3\Catalog Splitting\Set 1\dark-310ms_24d1g_50ict_0bl_0d80gam_avg2.tiff"
+estimated_full_angle_fov = 27.7
+verbose = False
 
 
 ################################
@@ -73,19 +73,23 @@ solution_list = []
 AllProjs = np.array([[0,0,0]])
 AllCents = np.array([[0,0]])
 num_images = 0
+successNum = 0
+failNum = 0
 
 image_files = glob.glob(os.path.join(path,'*'+image_file_extension))
 
 for impath in image_files:
 
         num_images+=1
-        print("Attempting to solve image " + str(num_images)+" of "+str(len(image_files))+": " + str(impath))
+        # print("Attempting to solve image " + str(num_images)+" of "+str(len(image_files))+": " + str(impath))
+        print(str(num_images), " of ", str(len(image_files)))
         start_time = time.time()
 
         img = cv2.imread(str(impath), cv2.IMREAD_GRAYSCALE)
         if img is None:
-            print("    ERROR ["+str(__name__)+"]:Image file "+impath+" does not exist in path. ")
-            sys.exit()
+            # print("    ERROR ["+str(__name__)+"]:Image file "+impath+" does not exist in path. ")
+            # sys.exit()
+            continue
         if verbose: print("    Loaded image in {} seconds".format(round((time.time()-start_time),3)))
         image_size = (img.shape[1],img.shape[0]) # tuple required, input args flipped
 
@@ -95,7 +99,7 @@ for impath in image_files:
 
         start_time = time.time() #reset timer
 
-        solved = t3.solve_from_image(img, fov_estimate=estimated_full_angle_fov)  # Adding e.g. fov_estimate=11.4, fov_max_error=.1 may improve performance
+        solved = t3.solve_from_image(img, fov_estimate=estimated_full_angle_fov, fov_max_error=3.0)  # Adding e.g. fov_estimate=11.4, fov_max_error=.1 may improve performance
 
         if solved['Matches'] is not None:
             Vecs = []
@@ -129,10 +133,15 @@ for impath in image_files:
 
             imgdict = {'R_inertial_to_camera_guess': R, 'uvd_meas': Cents, 'CAT_FOV':Vecs, 'Projections':ProjVecs, 'NumStars': len(Vecs), 'FOV': solved['FOV']}
             solution_list.append(imgdict)
+            print(str(impath)," \n")
             print("    ...solve SUCCESS (took " +str(time.time()-start_time)[:5]+" seconds) \n")
+            successNum += 1
 
         else:
-            print('\n    ...FAILED to solve \n\n')
+            # print('\n    ...FAILED to solve \n\n')
+            failNum += 1
+
+print("Successful solves total: ",successNum," \nFailed solves total: ",failNum)
 
 # if some of the images were solved, use the solutions to calibrate the camera
 if len(solution_list) > 0:
