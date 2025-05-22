@@ -12,6 +12,7 @@
 *.npy
 *.npy
 *.npz
+*.tiff
 *.png
 *.pyc
 *.txt
