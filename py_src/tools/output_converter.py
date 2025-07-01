@@ -28,7 +28,7 @@ from scipy.spatial.transform import Rotation as R
 ################################
 #USER INPUT
 ################################
-filename = 'your_filename_here' #include full path
+filename = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\2025-05-26_20-32-51_data_file_nm-5_pxl-2.csv' #include full path
 image_name_col = 'image name' #the name of the column containing image names
 q_scalar_col = 'qs' #the name of the column containing the scalar component of the quaternion
 q_vec1_col = 'qv0' #the name of the column containing the first part of the vector component of the quat

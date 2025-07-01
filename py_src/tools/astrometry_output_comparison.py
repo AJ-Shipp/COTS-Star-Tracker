@@ -35,7 +35,7 @@ enable_plots = True #enable/disable plotting
 plot_filename_prefix = '' #the prefix for your plot filenames
 plot_title_prefix = '' #the prefix for your plot titles
 
-star_tracker_filename = '' #the name of the first file to compare, output from the star tracker
+star_tracker_filename = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\2025-05-26_20-32-51_data_file_nm-5_pxl-2.csv' #the name of the first file to compare, output from the star tracker
 star_tracker_image_name_fieldname = 'image name'
 star_tracker_quat_scalar_fieldname = 'qs'
 star_tracker_quat_vec1_fieldname = 'qv0'
@@ -43,7 +43,7 @@ star_tracker_quat_vec2_fieldname = 'qv1'
 star_tracker_quat_vec3_fieldname = 'qv2'
 star_tracker_solvetime_fieldname = 'image solve time (s)'
 
-astrometry_filename = '' #the name of the second file to compare, output from astrometry
+astrometry_filename = r'C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\2025-05-27_21-48-00_astrometry_output.csv' #the name of the second file to compare, output from astrometry
 astrometry_image_name_fieldname = 'image_name'
 astrometry_right_asc_fieldname = 'ra'
 astrometry_dec_fieldname = 'dec'

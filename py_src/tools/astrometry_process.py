@@ -24,10 +24,10 @@ print("\n\n    !!!  Be sure to input your astrometry.net API key in the astromet
 ################################
 #USER INPUT
 ################################
-ast.api_key = 'YOUR_KEY_GOES_HERE' #astrometry.net API key
-target_dir = "your/full/file/path/goes/here" #full path to the directory where the images to be processed are
-solver_timeout = 3600 #seconds
-crash_recovery = False #set this flag to True if the tool failed mid-run to resume where you left off
+ast.api_key = 'gtuceruvxwvbpqwz' #astrometry.net API key
+target_dir = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\5-23-25_Imaging-Trip-4\normFilter\tiff" #full path to the directory where the images to be processed are
+solver_timeout = 1800 #seconds
+crash_recovery = True #set this flag to True if the tool failed mid-run to resume where you left off
 
 ################################
 #MAIN CODE

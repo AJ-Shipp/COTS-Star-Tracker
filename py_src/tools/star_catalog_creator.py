@@ -59,7 +59,7 @@ import star_tracker.cam_matrix as cam_matrix
 #USER-INPUT VARS
 #############################################################
 b_thresh = 6  # brightness threshold, recommend 5-6 to start with
-cam_config_file = r"C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data\cam_config\dfavg1-trip3only-1secsolves.json" #the name of the camera config file in /data
+cam_config_file = r"C:\Users\antho\OneDrive\Documents\GitHub\COTS-Star-Tracker\data\cam_config\trip4_norm-comparisonfiles.json" #the name of the camera config file in /data
 
 
 #############################################################

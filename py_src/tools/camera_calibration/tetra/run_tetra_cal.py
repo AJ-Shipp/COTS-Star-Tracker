@@ -27,9 +27,9 @@ from tetra3_Cal import Tetra3
 #USER INPUT
 ################################
 db_name = 'test_db'
-path_to_images = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\4-12-25_Imaging-Trip-3\Catalog Splitting\Set 1"
+path_to_images = r"C:\Users\antho\InfraTracker\6-1-25_Imaging-Trip-5\Comparison Shots\VIS-NIR\set_SouthWest"
 image_file_extension = '.tiff'
-darkframe_filename = r"G:\My Drive\Terminus\InfraTracker\Imaging Trips\4-12-25_Imaging-Trip-3\Catalog Splitting\Set 1\dark-310ms_24d1g_50ict_0bl_0d80gam_avg2.tiff"
+darkframe_filename = r"C:\Users\antho\InfraTracker\6-1-25_Imaging-Trip-5\Darkframes\dark-310ms_24d1g_50ict_0bl_0d80gam_avgNORM.tiff"
 estimated_full_angle_fov = 27.7
 verbose = False
 
